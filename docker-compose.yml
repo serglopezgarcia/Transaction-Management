@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: transactions_admin
+      POSTGRES_PASSWORD: Admin1234
+      POSTGRES_DB: deutsche_transactions_db
+    ports:
+      - "5432:5432"
