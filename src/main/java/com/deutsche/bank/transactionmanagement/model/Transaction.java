@@ -6,13 +6,24 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "transaction")
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "transaction_id")
     private Long id;
+
+    @Column(name = "account_number")
     private String accountNumber;
+
+    @Column(name = "transaction_type")
     private String transactionType;
+
+    @Column(name = "amount")
     private BigDecimal amount;
+
+    @Column(name = "transaction_timestamp")
     private LocalDateTime transactionTimestamp;
 
     public Long getId() {

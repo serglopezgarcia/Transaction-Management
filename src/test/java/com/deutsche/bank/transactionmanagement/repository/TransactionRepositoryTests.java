@@ -1,11 +1,13 @@
 package com.deutsche.bank.transactionmanagement.repository;
 
 import com.deutsche.bank.transactionmanagement.model.Transaction;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,7 +16,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@DataJpaTest
+@ActiveProfiles("test")
+@Transactional
 public class TransactionRepositoryTests {
 
     @Autowired
@@ -40,10 +43,22 @@ public class TransactionRepositoryTests {
     }
 
     @Test
+    public void testFindByAccountNumberNonExistent() {
+        List<Transaction> transactions = transactionRepository.findByAccountNumber("11111");
+        assertTrue(transactions.isEmpty());
+    }
+
+    @Test
     public void testFindById() {
         Transaction transaction = transactionRepository.findById(this.transaction.getId()).orElse(null);
         assertNotNull(transaction);
         assertEquals(this.transaction.getId(), transaction.getId());
+    }
+
+    @Test
+    public void testFindByIdNonExistent() {
+        Transaction transaction = transactionRepository.findById(99L).orElse(null);
+        assertNull(transaction);
     }
 
     @Test
