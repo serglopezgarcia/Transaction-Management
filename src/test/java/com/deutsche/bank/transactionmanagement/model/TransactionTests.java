@@ -27,8 +27,8 @@ public class TransactionTests {
     }
 
     @Test
-    public void testTransactionTimestamp() {
-        LocalDateTime timestamp = LocalDateTime.of(2025, 05, 2, 13, 0);
+    public void testTransactionSpecificTimestamp() {
+        LocalDateTime timestamp = LocalDateTime.of(2025, 5, 2, 13, 0);
         Transaction transaction = new Transaction();
         transaction.setTransactionTimestamp(timestamp);
 
