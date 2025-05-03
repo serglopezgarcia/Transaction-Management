@@ -77,4 +77,19 @@ public class TransactionServiceImplTests {
         assertTrue(transactions.isEmpty());
     }
 
+    @Test
+    public void testDeleteTransaction() {
+        when(transactionRepository.findById(1L)).thenReturn(Optional.of(transaction));
+        boolean isDeleted = transactionService.deleteTransaction(1L);
+        assertTrue(isDeleted);
+        verify(transactionRepository, times(1)).delete(transaction);
+    }
+
+    @Test
+    public void testDeleteTransactionNonExistent() {
+        when(transactionRepository.findById(111L)).thenReturn(Optional.empty());
+        boolean isDeleted = transactionService.deleteTransaction(111L);
+        assertFalse(isDeleted);
+    }
+
 }
