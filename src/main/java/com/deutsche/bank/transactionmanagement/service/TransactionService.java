@@ -5,4 +5,5 @@ import com.deutsche.bank.transactionmanagement.model.Transaction;
 public interface TransactionService {
 
     Transaction createTransaction(Transaction transaction);
+    Transaction getTransactionById(Long id);
 }

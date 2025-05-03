@@ -16,4 +16,9 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction createTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);
     }
+
+    @Override
+    public Transaction getTransactionById(Long id) {
+        return transactionRepository.findById(id).orElse(null);
+    }
 }
