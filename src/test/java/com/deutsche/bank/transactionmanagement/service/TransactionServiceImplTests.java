@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,6 +60,21 @@ public class TransactionServiceImplTests {
         when(transactionRepository.findById(111L)).thenReturn(Optional.empty());
         Transaction foundTransaction = transactionService.getTransactionById(111L);
         assertNull(foundTransaction);
+    }
+
+    @Test
+    public void testGetTransactionsByAccount() {
+        when(transactionRepository.findByAccountNumber("03052025")).thenReturn(List.of(transaction));
+        List<Transaction> transactions = transactionService.getTransactionsByAccount("03052025");
+        assertFalse(transactions.isEmpty());
+        assertEquals("03052025", transactions.get(0).getAccountNumber());
+    }
+
+    @Test
+    public void testGetTransactionsByAccountNonExistent() {
+        when(transactionRepository.findByAccountNumber("000000")).thenReturn(List.of());
+        List<Transaction> transactions = transactionService.getTransactionsByAccount("000000");
+        assertTrue(transactions.isEmpty());
     }
 
 }
