@@ -6,6 +6,8 @@ import com.deutsche.bank.transactionmanagement.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -21,4 +23,10 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction getTransactionById(Long id) {
         return transactionRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Transaction> getTransactionsByAccount(String accountNumber) {
+        return transactionRepository.findByAccountNumber(accountNumber);
+    }
+
 }
