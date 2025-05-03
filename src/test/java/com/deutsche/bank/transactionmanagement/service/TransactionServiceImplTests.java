@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -43,6 +44,21 @@ public class TransactionServiceImplTests {
         Transaction createdTransaction = transactionService.createTransaction(transaction);
         assertNotNull(createdTransaction);
         assertEquals("03052025", createdTransaction.getAccountNumber());
+    }
+
+    @Test
+    public void testGetTransactionById() {
+        when(transactionRepository.findById(1L)).thenReturn(Optional.of(transaction));
+        Transaction foundTransaction = transactionService.getTransactionById(1L);
+        assertNotNull(foundTransaction);
+        assertEquals(1L, foundTransaction.getId());
+    }
+
+    @Test
+    public void testGetTransactionByIdNonExistent() {
+        when(transactionRepository.findById(111L)).thenReturn(Optional.empty());
+        Transaction foundTransaction = transactionService.getTransactionById(111L);
+        assertNull(foundTransaction);
     }
 
 }
