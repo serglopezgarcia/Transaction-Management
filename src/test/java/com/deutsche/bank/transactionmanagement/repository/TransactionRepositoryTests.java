@@ -1,13 +1,10 @@
 package com.deutsche.bank.transactionmanagement.repository;
 
 import com.deutsche.bank.transactionmanagement.model.Transaction;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,9 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@ActiveProfiles("test")
-@Transactional
+@DataJpaTest
 public class TransactionRepositoryTests {
 
     @Autowired
@@ -71,5 +66,13 @@ public class TransactionRepositoryTests {
         Transaction savedTransaction = transactionRepository.save(newTransaction);
         assertNotNull(savedTransaction.getId());
         assertEquals("02052025", savedTransaction.getAccountNumber());
+    }
+
+    @Test
+    public void testDeleteTransaction() {
+        assertNotNull(transaction);
+        transactionRepository.delete(transaction);
+        Transaction deletedTransaction = transactionRepository.findById(transaction.getId()).orElse(null);
+        assertNull(deletedTransaction);
     }
 }
