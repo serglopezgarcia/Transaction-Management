@@ -9,4 +9,5 @@ public interface TransactionService {
     Transaction createTransaction(Transaction transaction);
     Transaction getTransactionById(Long id);
     List<Transaction> getTransactionsByAccount(String accountNumber);
+    boolean deleteTransaction(Long id);
 }

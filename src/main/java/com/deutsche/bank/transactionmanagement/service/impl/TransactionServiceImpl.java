@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -29,4 +30,13 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findByAccountNumber(accountNumber);
     }
 
+    @Override
+    public boolean deleteTransaction(Long id) {
+        Optional<Transaction> transactionOpt = transactionRepository.findById(id);
+        if (transactionOpt.isPresent()) {
+            transactionRepository.delete(transactionOpt.get());
+            return true;
+        }
+        return false;
+    }
 }
