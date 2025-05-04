@@ -90,6 +90,16 @@ public class TransactionServiceImplTests {
         when(transactionRepository.findById(111L)).thenReturn(Optional.empty());
         boolean isDeleted = transactionService.deleteTransaction(111L);
         assertFalse(isDeleted);
+        verify(transactionRepository, never()).delete(transaction);
+    }
+
+    @Test
+    public void testDeleteTransactionMoreThan24Hours() {
+        transaction.setTransactionTimestamp(LocalDateTime.now().minusHours(25));
+        when(transactionRepository.findById(111L)).thenReturn(Optional.of(transaction));
+        boolean isDeleted = transactionService.deleteTransaction(111L);
+        assertFalse(isDeleted);
+        verify(transactionRepository, never()).delete(transaction);
     }
 
     @Test
