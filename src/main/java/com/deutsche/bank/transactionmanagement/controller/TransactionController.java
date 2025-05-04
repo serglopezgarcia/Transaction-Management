@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -19,6 +20,7 @@ public class TransactionController {
     @PostMapping
     public ResponseEntity<?> createTransaction(@RequestBody Transaction transaction) {
         try {
+            transaction.setTransactionTimestamp(LocalDateTime.now());
             Transaction createdTransaction = transactionService.createTransaction(transaction);
             return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
         } catch (RuntimeException e) {
