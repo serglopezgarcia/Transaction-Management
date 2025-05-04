@@ -75,4 +75,12 @@ public class TransactionRepositoryTests {
         Transaction deletedTransaction = transactionRepository.findById(transaction.getId()).orElse(null);
         assertNull(deletedTransaction);
     }
+
+    @Test
+    public void testCalculateTotalAmount() {
+        LocalDateTime withinTwentyFourHours = LocalDateTime.now().minusHours(24);
+        BigDecimal totalAmount = transactionRepository.calculateTotalAmount(transaction.getAccountNumber(), withinTwentyFourHours);
+        assertEquals(new BigDecimal("50"), totalAmount);
+    }
+
 }
