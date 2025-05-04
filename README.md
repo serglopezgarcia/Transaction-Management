@@ -24,6 +24,12 @@ git clone https://github.com/serglopezgarcia/Transaction-Management
 cd transaction-management-and-fraud-detection
 ```  
 
+### Docker Setup
+For using Docker for database setup, ensure Docker is installed and running. Use the provided docker-compose.yml file to set up the database.
+```shell  
+docker-compose up -d
+```
+
 ### Build the Project
 Use Maven to clean and build the project:
 
@@ -66,9 +72,3 @@ Use Maven to execute the test suite:
 mvn test
 ``` 
 This command will run all unit tests, ensuring the application's functionality and compliance with the Test-Driven Development (TDD) approach.
-
-### Docker Setup
-For using Docker for database setup, ensure Docker is installed and running. Use the provided docker-compose.yml file to set up the database.
-```shell  
-docker-compose up -d
-```
