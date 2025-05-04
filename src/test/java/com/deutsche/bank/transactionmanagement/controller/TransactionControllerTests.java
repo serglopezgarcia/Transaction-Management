@@ -61,7 +61,7 @@ public class TransactionControllerTests {
 
         mockMvc.perform(post("/transactions")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"accountNumber\":\"03052025\",\"transactionType\":\"Credit\",\"amount\":9500,\"transactionTimestamp\":\"2025-05-04T14:00:00\"}"))
+                        .content("{\"accountNumber\":\"03052025\",\"transactionType\":\"Credit\",\"amount\":10500,\"transactionTimestamp\":\"2025-05-04T14:00:00\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Fraud warning: Transaction exceeds threshold of €10,000 within 24 hours."));
     }
