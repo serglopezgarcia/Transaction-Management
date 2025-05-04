@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -82,4 +84,23 @@ public class TransactionControllerTests {
         mockMvc.perform(get("/transactions/111"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void testGetTransactionsByAccountSuccess() throws Exception {
+        when(transactionService.getTransactionsByAccount("03052025")).thenReturn(List.of(transaction));
+
+        mockMvc.perform(get("/transactions/accounts/03052025"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].accountNumber").value("03052025"));
+    }
+
+    @Test
+    public void testGetTransactionsByAccountEmpty() throws Exception {
+        when(transactionService.getTransactionsByAccount("11111")).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/transactions/accounts/11111"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isEmpty());
+    }
+
 }
