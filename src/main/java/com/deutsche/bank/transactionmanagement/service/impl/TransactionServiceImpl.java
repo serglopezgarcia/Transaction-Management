@@ -6,6 +6,8 @@ import com.deutsche.bank.transactionmanagement.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +19,21 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction createTransaction(Transaction transaction) {
+        checkFraud(transaction);
         return transactionRepository.save(transaction);
+    }
+
+    private void checkFraud(Transaction transaction) {
+        LocalDateTime withinTwentyFourHours = LocalDateTime.now().minusHours(24);
+        BigDecimal totalAmount = transactionRepository.calculateTotalAmount(transaction.getAccountNumber(), withinTwentyFourHours);
+
+        if (totalAmount == null) {
+            totalAmount = BigDecimal.ZERO;
+        }
+
+        if (totalAmount.add(transaction.getAmount()).compareTo(new BigDecimal("10000")) > 0) {
+            throw new RuntimeException("Fraud warning: Transaction exceeds threshold of €10,000 within 24 hours.");
+        }
     }
 
     @Override

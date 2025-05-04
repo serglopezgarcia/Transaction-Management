@@ -80,7 +80,14 @@ public class TransactionRepositoryTests {
     public void testCalculateTotalAmount() {
         LocalDateTime withinTwentyFourHours = LocalDateTime.now().minusHours(24);
         BigDecimal totalAmount = transactionRepository.calculateTotalAmount(transaction.getAccountNumber(), withinTwentyFourHours);
-        assertEquals(new BigDecimal("50"), totalAmount);
+        assertEquals(0, totalAmount.compareTo(new BigDecimal("50")));
+    }
+
+    @Test
+    public void testCalculateTotalAmountNonExistentAccount() {
+        LocalDateTime withinTwentyFourHours = LocalDateTime.now().minusHours(24);
+        BigDecimal totalAmount = transactionRepository.calculateTotalAmount("1111", withinTwentyFourHours);
+        assertNull(totalAmount);
     }
 
 }

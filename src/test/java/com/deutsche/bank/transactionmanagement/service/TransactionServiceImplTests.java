@@ -94,11 +94,9 @@ public class TransactionServiceImplTests {
 
     @Test
     public void testCreateTransactionExceedingThreshold() {
-        when(transactionRepository.findByAccountNumber("03052025")).thenReturn(List.of(transaction));
+        when(transactionRepository.calculateTotalAmount(eq("03052025"), any(LocalDateTime.class))).thenReturn(new BigDecimal("1000"));
         transaction.setAmount(new BigDecimal("9500"));
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            transactionService.createTransaction(transaction);
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> transactionService.createTransaction(transaction));
         assertEquals("Fraud warning: Transaction exceeds threshold of €10,000 within 24 hours.", exception.getMessage());
     }
 
