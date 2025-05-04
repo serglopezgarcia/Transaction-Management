@@ -41,4 +41,14 @@ public class TransactionController {
         List<Transaction> transactions = transactionService.getTransactionsByAccount(accountNumber);
         return ResponseEntity.ok(transactions);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
+        boolean isDeleted = transactionService.deleteTransaction(id);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
 }

@@ -103,4 +103,20 @@ public class TransactionControllerTests {
                 .andExpect(jsonPath("$").isEmpty());
     }
 
+    @Test
+    public void testDeleteTransactionSuccess() throws Exception {
+        when(transactionService.deleteTransaction(1L)).thenReturn(true);
+
+        mockMvc.perform(delete("/transactions/1"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testDeleteTransactionForbidden() throws Exception {
+        when(transactionService.deleteTransaction(111L)).thenReturn(false);
+
+        mockMvc.perform(delete("/transactions/111"))
+                .andExpect(status().isForbidden());
+    }
+
 }
