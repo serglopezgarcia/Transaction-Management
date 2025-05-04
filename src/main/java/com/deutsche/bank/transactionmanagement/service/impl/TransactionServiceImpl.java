@@ -50,8 +50,12 @@ public class TransactionServiceImpl implements TransactionService {
     public boolean deleteTransaction(Long id) {
         Optional<Transaction> transactionOpt = transactionRepository.findById(id);
         if (transactionOpt.isPresent()) {
-            transactionRepository.delete(transactionOpt.get());
-            return true;
+            Transaction transaction = transactionOpt.get();
+            LocalDateTime twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
+            if (transaction.getTransactionTimestamp().isAfter(twentyFourHoursAgo)) {
+                transactionRepository.delete(transaction);
+                return true;
+            }
         }
         return false;
     }
