@@ -32,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         if (totalAmount.add(transaction.getAmount()).compareTo(new BigDecimal("10000")) > 0) {
-            throw new RuntimeException("Fraud warning: Transaction exceeds threshold of €10,000 within 24 hours.");
+            throw new RuntimeException("Fraud warning: Transaction exceeds threshold of 10,000 euros within 24 hours.");
         }
     }
 
